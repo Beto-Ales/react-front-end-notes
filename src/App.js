@@ -67,6 +67,7 @@ const App = () => {
       const user = await loginService.login({
         username, password
       })
+      noteService.setToken(user.token)
       setUser(user)
       setUsername('')
       setPassword('')
@@ -75,8 +76,7 @@ const App = () => {
       setTimeout(() => {
         setErrorMessage(null)
       }, 5000);
-    }
-    // console.log('loggin in with ', username, password)
+    }    
   }
 
   const loginForm = () => (
@@ -122,58 +122,23 @@ const App = () => {
       
       <h1>Notes</h1>
 
-      <Notification message={errorMessage} />
+      <Notification message={errorMessage} />      
 
-      {/* ---------------------------------------- */}
-      {/* {user === null && loginForm()}    --or--
-      {user !== null && noteForm()} */}
-
-      {/* {
-        user === null
-        ? loginForm()
-        : <div>
+      {
+        user === null ?
+        loginForm() :
+        <div>
           <p>{user.name} logged-in</p>
           {noteForm()}
         </div>
-      } */}
-
-{user === null ?
-      loginForm() :
-      <div>
-        <p>{user.name} logged-in</p>
-        {noteForm()}
-      </div>
-    }
-
-      {/* ------------------------------------------- */}
-
-      {/* <form onSubmit={handleLogin}>
-        <div>
-          username
-          <input
-          type="text"
-          value={username}
-          name="Username"
-          onChange={({ target }) => setUsername(target.value)}
-          />
-        </div>
-        <div>
-          password
-          <input
-          type="password"
-          value={password}
-          name="Password"
-          onChange={({ target }) => setPassword(target.value)}
-          />
-        </div>
-        <button type="submit">login</button>
-      </form> */}
+      }      
 
       <div>
         <button onClick={() => setShowAll(!showAll)}>
           show {showAll ? 'important' : 'all' }
         </button>
-      </div>   
+      </div>
+
       <ul>
         {notesToShow.map(note => 
             <Note
@@ -182,14 +147,7 @@ const App = () => {
               toggleImportance={() => toggleImportanceOf(note.id)}
             />
         )}
-      </ul>
-      {/* <form onSubmit={addNote}>
-        <input
-          value={newNote}
-          onChange={handleNoteChange}
-        />
-        <button type="submit">save</button>
-      </form>   */}
+      </ul>      
 
       <Footer />
     </div>
