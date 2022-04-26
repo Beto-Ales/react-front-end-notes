@@ -29,7 +29,7 @@ const App = () => {
         setUser(user)
         noteService.setToken(user.token)
       }
-  })
+  }, [])
 
   const addNote = (event) => {
     event.preventDefault()
